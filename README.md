@@ -17,6 +17,3 @@ go bulid -o client client.go
 ./server
 ./client
 ```
-
-## j2go
-java 和 golang 语法对比，帮助 Java 开发者快速熟悉 golang
