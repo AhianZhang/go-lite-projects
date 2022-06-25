@@ -1,10 +1,9 @@
-package main
+package config
 
 import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"time"
 
 	"gorm.io/driver/mysql"
@@ -18,6 +17,10 @@ type User struct {
 	Gender     int
 	Address    string
 	CreateTime time.Time
+}
+type TinyUser struct {
+	Name   string
+	Gender int
 }
 
 func main() {
@@ -44,15 +47,15 @@ func main() {
 	// db.Select("name", "gender", "address", "create_time").Create(&user)
 	// fmt.Println(user.Id)
 	// 批量创建
-	var userBatch []User
+	// var userBatch []User
 
-	for i := 0; i < 3; i++ {
-		userBatch = append(userBatch, User{Name: "ahian" + strconv.Itoa(i), Gender: i % 2, Address: "北京", CreateTime: time.Now()})
-	}
+	// for i := 0; i < 3; i++ {
+	// 	userBatch = append(userBatch, User{Name: "ahian" + strconv.Itoa(i), Gender: i % 2, Address: "北京", CreateTime: time.Now()})
+	// }
 	// 一起创建
-	db.Select("name", "gender", "address", "create_time").Create(&userBatch)
+	// db.Select("name", "gender", "address", "create_time").Create(&userBatch)
 	// 分批创建
-	db.Select("name", "gender", "address", "create_time").CreateInBatches(&userBatch, 1)
+	// db.Select("name", "gender", "address", "create_time").CreateInBatches(&userBatch, 1)
 
 	var user1 User
 	// 查询第一个
@@ -62,7 +65,15 @@ func main() {
 	var users []User
 	db.Limit(10).Find(&users)
 	fmt.Println(users)
+	// 根据 struct 自动映射
+	var tinyUser TinyUser
+	db.Model(&User{}).Limit(1).Find(&tinyUser)
+	fmt.Println(tinyUser)
 
+}
+
+func CreateUser(user User) {
+	fmt.Println("123")
 }
 
 //======= 配置表名
